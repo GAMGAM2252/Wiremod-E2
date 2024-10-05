@@ -1,0 +1,51 @@
+@name Order Terminal
+@inputs Up Down Enter RESET
+@outputs Screen:string OUT:array O1 O2 O3 Send Number
+@persist SelectedIndex:number MenuItems:array
+@strict
+
+if (first()|duped()|RESET) {
+    MenuItems = array("Cheeseburger", "Double Cheeseburger", "Pizza","Abschicken")
+    SelectedIndex = 1
+    OUT = array()
+    Send = 0
+    Number = 101
+}
+
+Screen = "Willkommen bei Schmidtfood.\n\n"
+if (Up) {
+    SelectedIndex = SelectedIndex - 1
+    if (SelectedIndex < 1) {
+        SelectedIndex = 4
+    }
+}
+
+if (Down) {
+    SelectedIndex = SelectedIndex + 1
+    if (SelectedIndex > 4) {
+        SelectedIndex = 1
+    }
+}
+
+for (I = 1, 4) {
+    if (I == SelectedIndex) {
+        Screen += ">" + MenuItems[I, string] + "<\n"  
+    } else{Screen += "  " + MenuItems[I, string] + "\n"
+    }
+}
+
+if(Enter & SelectedIndex == 4){Send = 1}
+elseif(Enter){OUT:pushNumber(SelectedIndex)}
+O1 = OUT[1, number]   
+O2 = OUT[2, number]
+O3 = OUT[3, number]
+
+if(Send ){
+    timer("s",3000)
+    Screen = "Vielen dank fuer die Bestellung!\nSie koennen nun an einer Kasse bezahlen!\n
+        Ihr Code:  " + Number:toString()}
+if(clk("s")){
+    Send = 0
+    OUT = array()
+    SelectedIndex = 1
+    Number = Number + 0.5}
