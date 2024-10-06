@@ -1,0 +1,17 @@
+@name Keyboard To Plug
+@inputs PlugIn:array
+@inputs Output:string InUse
+@outputs PlugOut:array
+@outputs Kick ResetString
+@trigger all
+
+PlugOut = array()
+PlugOut:pushString(Output)
+PlugOut:pushNumber(InUse)
+
+if(PlugIn[1, number]){Kick = 1}
+else{Kick = 0}
+if(PlugIn[2, number]){ResetString = 1}
+else{ResetString = 0}
+
+#This code is to put all the necessary Data To a array Plug
