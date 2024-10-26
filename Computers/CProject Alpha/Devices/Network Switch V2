@@ -1,0 +1,89 @@
+@name NetSwitch V2
+@inputs Port1:array Port2:array Port3:array Port4:array Port5:array Reset
+@outputs Port1o:array Port2o:array Port3o:array Port4o:array Port5o:array Indicator:vector
+@persist Connected1:array Connected2:array Connected3:array Connected4:array Connected5:array Traf
+@autoupdate
+@strict
+
+if(first()|duped()|Reset){
+    Connected1 = array()
+    Connected2 = array()
+    Connected3 = array()
+    Connected4 = array()
+    Connected5 = array()
+    Port1o = array()
+    Port2o = array()
+    Port3o = array()
+    Port4o = array()
+    Port5o = array()
+    Traf = 0
+    timer("Traffic", 15000)}
+
+if(clk()){
+    if(Traf > 8){Indicator = vec(255,255,0)}
+    else{Indicator = vec(0,255,0)}
+    timer("Traffic", 15000)
+    Traf = 0}
+
+if(Port1 != array("Empty")){
+    Traf++
+    if(Connected1:indexOf(Port1[2, number])==0){Connected1:pushNumber(Port1[1, number])}
+    if(Connected2:indexOf(Port1[2, number])!=0){Port2o = Port1}
+    elseif(Connected3:indexOf(Port1[2, number])!=0){Port3o = Port1}
+    elseif(Connected4:indexOf(Port1[2, number])!=0){Port4o = Port1}
+    elseif(Connected5:indexOf(Port1[2, number])!=0){Port5o = Port1}
+    else{Port2o = Port1
+        Port3o = Port1
+        Port4o = Port1
+        Port5o = Port1}}
+
+if(Port2 != array("Empty")){    #######################################
+    Traf++
+    if(Connected2:indexOf(Port2[2, number])==0){Connected2:pushNumber(Port2[1, number])}
+    if(Connected1:indexOf(Port2[2, number])!=0){Port1o = Port2}
+    elseif(Connected3:indexOf(Port2[2, number])!=0){Port3o = Port2}
+    elseif(Connected4:indexOf(Port2[2, number])!=0){Port4o = Port2}
+    elseif(Connected5:indexOf(Port2[2, number])!=0){Port5o = Port2}
+    else{Port1o = Port2
+        Port3o = Port2
+        Port4o = Port2
+        Port5o = Port2}}
+
+if (Port3 != array("Empty")) {
+    Traf++
+    if (Connected3:indexOf(Port3[2, number]) == 0) { Connected3:pushNumber(Port3[1, number]) }
+    if (Connected1:indexOf(Port3[2, number]) != 0) { Port1o = Port3 }
+    elseif (Connected2:indexOf(Port3[2, number]) != 0) { Port2o = Port3 }
+    elseif (Connected4:indexOf(Port3[2, number]) != 0) { Port4o = Port3 }
+    elseif (Connected5:indexOf(Port3[2, number]) != 0) { Port5o = Port3 }
+    else {
+        Port1o = Port3
+        Port2o = Port3
+        Port4o = Port3
+        Port5o = Port3}}
+
+if (Port4 != array("Empty")) {
+    Traf++
+    if (Connected4:indexOf(Port4[2, number]) == 0) { Connected4:pushNumber(Port4[1, number]) }
+    if (Connected1:indexOf(Port4[2, number]) != 0) { Port1o = Port4 }
+    elseif (Connected2:indexOf(Port4[2, number]) != 0) { Port2o = Port4 }
+    elseif (Connected3:indexOf(Port4[2, number]) != 0) { Port3o = Port4 }
+    elseif (Connected5:indexOf(Port4[2, number]) != 0) { Port5o = Port4 }
+    else {
+        Port1o = Port4
+        Port2o = Port4
+        Port3o = Port4
+        Port5o = Port4}}
+
+if (Port5 != array("Empty")) {
+    Traf++
+    if (Connected5:indexOf(Port5[2, number]) == 0) { Connected5:pushNumber(Port5[1, number]) }
+    if (Connected1:indexOf(Port5[2, number]) != 0) { Port1o = Port5 }
+    elseif (Connected2:indexOf(Port5[2, number]) != 0) { Port2o = Port5 }
+    elseif (Connected3:indexOf(Port5[2, number]) != 0) { Port3o = Port5 }
+    elseif (Connected4:indexOf(Port5[2, number]) != 0) { Port4o = Port5 }
+    else {
+        Port1o = Port5
+        Port2o = Port5
+        Port3o = Port5
+        Port4o = Port5}}
